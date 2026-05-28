@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tebak Angka</title>
+
+<style>
+body {
+    font-family: 'Segoe UI', sans-serif;
+    background: linear-gradient(135deg, #1e1e2f, #121212);
+    color: white;
+    text-align: center;
+    margin-top: 50px;
+}
+
+.container {
+    background: #1f1f2e;
+    padding: 25px;
+    border-radius: 12px;
+    width: 320px;
+    margin: auto;
+    box-shadow: 0 0 15px rgba(0,0,0,0.5);
+}
+
+h1 {
+    margin-bottom: 10px;
+}
+
+button {
+    padding: 10px 14px;
+    margin: 5px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: 0.2s;
+}
+
+button:hover {
+    transform: scale(1.05);
+}
+
+/* level */
+.easy { background: #4CAF50; color: white; }
+.medium { background: #FFC107; color: black; }
+.hard { background: #F44336; color: white; }
+
+/* tombol tebak */
+.tebak {
+    background: #2196F3;
+    color: white;
+}
+
+/* input */
+input {
+    padding: 10px;
+    width: 80%;
+    border-radius: 6px;
+    border: none;
+    text-align: center;
+    margin-top: 10px;
+}
+
+/* hasil */
+#hasil {
+    margin-top: 15px;
+    font-size: 18px;
+    font-weight: bold;
+}
+
+/* info */
+#info {
+    margin-top: 10px;
+    opacity: 0.8;
+}
+</style>
+
+</head>
+<body>
+
+<div class="container">
+
+<h1>Game Tebak Angka</h1>
+<p>Komputer memilih angka range 1-100</p>
+
+<button class="easy" onclick="setLevel('Easy')">Mudah (10)</button>
+<button class="medium" onclick="setLevel('Medium')">Medium (7)</button>
+<button class="hard" onclick="setLevel('Hard')">Hard (4)</button>
+
+<br><br>
+
+<input type="number" id="tebakan">
+<br>
+
+<button class="tebak" onclick="cek()">Tebak</button>
+
+<p id="info">Pilih level dulu</p>
+<p id="hasil"></p>
+
+</div>
+
+<script>
+let angka = Math.floor(Math.random() * 100) + 1;
+
+let attempts = 0;
+let gameOver = false;
+
+function setLevel(level) {
+    gameOver = false;
+
+    if (level == 'Easy') {
+        attempts = 10;
+    }
+    else if (level == 'Medium') {
+        attempts = 7;
+    }
+    else {
+        attempts = 4;
+    }
+
+    document.getElementById("info").innerText = 
+        "Level: " + level + " | Sisa kesempatan: " + attempts;
+
+    angka = Math.floor(Math.random() * 100) + 1;
+}
+
+function cek() {
+
+    if (gameOver) return;
+
+    let input = document.getElementById("tebakan").value;
+    let hasil = document.getElementById("hasil");
+
+    if (attempts <= 0) {
+        hasil.innerText = "Kamu Kalah! Angka : " + angka;
+        gameOver = true;
+        return;
+    }
+
+    attempts--;
+
+    if (input > angka) {
+        hasil.innerText = "Terlalu Besar! Sisa : " + attempts;
+    }
+    else if (input < angka) {
+        hasil.innerText = "Terlalu Kecil! Sisa : " + attempts;
+    }
+    else {
+        hasil.innerText = "Benar!";
+        gameOver = true;
+        return;
+    }
+
+    if (attempts === 0) {
+        hasil.innerText = "Kamu Kalah! Angka : " + angka;
+        gameOver = true;
+    }
+}
+</script>
+
+</body>
+</html>
